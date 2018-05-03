@@ -21,6 +21,8 @@ void ofApp::setup(){
 
     video_it = videos.begin();
 
+    switch_video = false;
+
     num_leds = 150;
     cylinder_rotation = 0;
     sender.init("/dev/tty.usbmodem364541");
@@ -35,6 +37,18 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     myPlayer.update();
+
+    if (switch_video) {
+        video_it++;
+        if (video_it == videos.end()) {
+            video_it = videos.begin();
+        }
+        myPlayer.load(*video_it);
+        myPlayer.setUseTexture(true);
+        myPlayer.play();
+
+        switch_video = false;
+    }
 }
 
 //--------------------------------------------------------------
@@ -51,13 +65,7 @@ void ofApp::keyPressed(int key){
     float rotationIncrement = 3.14 / 18; // 10 degrees
 
     if (key == ' ') {
-        video_it++;
-        if (video_it == videos.end()) {
-            video_it = videos.begin();
-        }
-        myPlayer.load(*video_it);
-        myPlayer.setUseTexture(true);
-        myPlayer.play();
+        switch_video = true;
     }
     else if (key == OF_KEY_RIGHT) {
         cylinder_rotation -= rotationIncrement;

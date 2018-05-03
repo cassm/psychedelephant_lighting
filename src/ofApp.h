@@ -23,6 +23,7 @@ public:
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
 
+    bool switch_video;
     float cylinder_rotation;
     uint16_t  num_leds;
     LedCylinder cylinder;
