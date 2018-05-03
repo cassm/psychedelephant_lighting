@@ -21,8 +21,8 @@ void ofApp::setup(){
 
     video_it = videos.begin();
 
-    uint16_t num_leds = 150;
-    cylinder.init(28, 350, 13.9, num_leds);
+    num_leds = 150;
+    cylinder_rotation = 0;
     sender.init("/dev/tty.usbmodem364541");
     sender.add_strand(7, 4, num_leds);
 
@@ -39,6 +39,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
     cylinder.setPixels(myPlayer.getPixels());
     cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5);
     sender.setPixels(7, cylinder.getPixels());
@@ -47,6 +48,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    float rotationIncrement = 3.14 / 18; // 10 degrees
+
     if (key == ' ') {
         video_it++;
         if (video_it == videos.end()) {
@@ -55,6 +58,12 @@ void ofApp::keyPressed(int key){
         myPlayer.load(*video_it);
         myPlayer.setUseTexture(true);
         myPlayer.play();
+    }
+    else if (key == OF_KEY_RIGHT) {
+        cylinder_rotation -= rotationIncrement;
+    }
+    else if (key == OF_KEY_LEFT) {
+        cylinder_rotation += rotationIncrement;
     }
 }
 

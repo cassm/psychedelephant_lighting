@@ -22,7 +22,9 @@ public:
     void windowResized(int w, int h) override;
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
-    
+
+    float cylinder_rotation;
+    uint16_t  num_leds;
     LedCylinder cylinder;
     LedSender sender;
     ofVideoPlayer myPlayer;

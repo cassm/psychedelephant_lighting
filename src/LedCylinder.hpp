@@ -20,7 +20,7 @@ public:
     LedCylinder() = default;
     ~LedCylinder() = default;
     
-    void init(float radius, float length, float n_turns, int n_leds);
+    void init(float radius, float length, float rotation, float n_turns, int n_leds);
     void setPixels(ofPixels &p);
     ofPixels getPixels();
     void render(ofPoint origin, float led_size);

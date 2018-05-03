@@ -7,12 +7,16 @@
 
 #include "LedCylinder.hpp"
 
-void LedCylinder::init(float radius, float length, float n_turns, int n_leds) {
+void LedCylinder::init(float radius, float length, float rotation, float n_turns, int n_leds) {
     glEnable (GL_DEPTH_TEST);   // Enables Depth Testing
+    ofSetBackgroundAuto(true);
+
     radius_ = radius;
     length_ = length;
     float leds_per_turn = n_leds / n_turns;
-    
+
+    leds.clear();
+
     for (int i = 0; i < n_leds; i++) {
         struct ledInfo led;
         
@@ -22,8 +26,8 @@ void LedCylinder::init(float radius, float length, float n_turns, int n_leds) {
         float num_turns_so_far = n_turns * led.input_mapping.y;
         float angle_on_cylinder = fmod(2*3.14 * num_turns_so_far + 3.14*1.5, 2*3.14);
         
-        led.output_mapping.x = cos(angle_on_cylinder) * radius;
-        led.output_mapping.z = sin(angle_on_cylinder) * radius;
+        led.output_mapping.x = cos(angle_on_cylinder + rotation) * radius;
+        led.output_mapping.z = sin(angle_on_cylinder + rotation) * radius;
         led.output_mapping.y = (led.input_mapping.y * length) - length/2; // origin is in centre
         
         leds.push_back(led);
