@@ -26,7 +26,8 @@ void ofApp::setup(){
     num_leds = 150;
     cylinder_rotation = 0;
     sender.init("/dev/tty.usbmodem364541");
-    sender.add_strand(7, 4, num_leds);
+
+    sender.set_num_leds(2, num_leds);
 
     myPlayer.load(*video_it);
     myPlayer.setUseTexture(true);
@@ -56,8 +57,8 @@ void ofApp::draw(){
     cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
     cylinder.setPixels(myPlayer.getPixels());
     cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5);
-    sender.setPixels(7, cylinder.getPixels());
-    sender.send(7);
+    sender.setPixels(2, cylinder.getPixels());
+    sender.send(2);
 }
 
 //--------------------------------------------------------------

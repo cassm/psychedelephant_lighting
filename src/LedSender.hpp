@@ -11,29 +11,27 @@
 #include <boost/asio/serial_port.hpp>
 #include <boost/asio.hpp>
 
+const int num_strips = 8;
+
 class LedSender {
 public:
     LedSender() : port(io) {};
     ~LedSender();
     void init(std::string port_str);
-    void add_strand(uint8_t pin_, uint8_t channels_per_led_, uint16_t num_leds_);
-    void setPixels(uint8_t pin_, const ofPixels &p_);
-    void send(uint8_t pin_);
+    void setPixels(uint8_t strip_id_, const ofPixels &p_);
+    void set_num_leds(uint8_t strip_id_, uint16_t num_leds_);
+    void send(uint8_t strip_id_);
+//    void start_read();
+//    void handle_read(const boost::system::error_code& ec);
 
 private:
     struct strand_info {
-        bool operator==(const int& a) const
-        {
-            return (pin == a);
-        }
-
-        uint8_t pin;
-        uint8_t channels_per_led;
         uint16_t num_leds;
         ofPixels p;
     };
 
-    std::vector<strand_info> strands;
+    strand_info strands[num_strips];
+
     boost::asio::io_service io;
     boost::asio::serial_port port;
 };
