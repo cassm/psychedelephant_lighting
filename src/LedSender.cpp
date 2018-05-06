@@ -5,19 +5,19 @@
 #include "LedSender.hpp"
 
 void LedSender::init(std::string port_str) {
-    ofLogNotice("ofApp::setup") << "Opening serial port...";
+    ofLogNotice("LedSender::init") << "Opening serial port...";
     try {
         port.open(port_str);
         port.set_option(boost::asio::serial_port_base::baud_rate(115200));
 
         if (port.is_open()) {
-            ofLogNotice("ofApp::setup") << "Serial port opened";
+            ofLogNotice("LedSender::init") << "Serial port opened";
         } else {
-            ofLogNotice("ofApp::setup") << "Could not open serial port";
+            ofLogNotice("LedSender::init") << "Could not open serial port";
         }
     }
     catch(const std::exception& e) {
-        ofLogNotice("ofApp::setup") << "Error opening serial port: " << e.what();
+        ofLogNotice("LedSender::init") << "Error opening serial port: " << e.what();
     }
 
 }
