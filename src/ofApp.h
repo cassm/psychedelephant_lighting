@@ -33,4 +33,6 @@ public:
     ofVideoPlayer myPlayer;
     std::vector<std::string> videos;
     std::vector<std::string>::iterator video_it;
+
+    ofImage proj;
 };

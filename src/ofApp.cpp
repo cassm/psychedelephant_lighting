@@ -2,15 +2,17 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+//    ofSetBackgroundColor(0, 0, 0);
+//    proj.load("projectionMaskBlack.png");
     ofSetBackgroundColor(32, 32, 32);
+    proj.load("projectionMaskGrey.png");
 
-    videos.emplace_back("fire_loop.mp4");
-    videos.emplace_back("lava_lamp_green_ae_blur.mp4");
-    videos.emplace_back("fier_blur.mp4");
-    videos.emplace_back("big_sheep_blur.mp4");
-    videos.emplace_back("smoke.mp4");
-    videos.emplace_back("fier.mp4");
     videos.emplace_back("big_sheep.mp4");
+    videos.emplace_back("hx-01-00.mp4");
+    videos.emplace_back("hx-01-01.mp4");
+    videos.emplace_back("hxv1410.mp4");
+    videos.emplace_back("lava_lamp_green_ae_blur.mp4");
+    videos.emplace_back("smoke.mp4");
     videos.emplace_back("shpongle.mp4");
     videos.emplace_back("big.mp4");
     videos.emplace_back("warp.mp4");
@@ -20,6 +22,7 @@ void ofApp::setup(){
     videos.emplace_back("wobble.mp4");
     videos.emplace_back("swoosh.mp4");
     videos.emplace_back("hors.mp4");
+    videos.emplace_back("fire_loop.mp4");
 
     video_it = videos.begin();
 
@@ -66,6 +69,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    float screenDiameter = 1.68;
+    float height = ofGetHeight() / 5.5 * screenDiameter;
+    float maskWidth = height/proj.getHeight() * proj.getWidth();
+    float videoWidth = height/myPlayer.getHeight() * myPlayer.getWidth();
+
+    myPlayer.draw(ofGetWidth()/2 - videoWidth/2, ofGetHeight()/2 - height/2, videoWidth, height);
+    proj.draw(ofGetWidth()/2 - maskWidth/2, ofGetHeight()/2 - height/2, maskWidth, height);
+
 //    cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
 //    cylinder.setPixels(myPlayer.getPixels());
 //    cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5, 1);
