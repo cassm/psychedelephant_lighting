@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetBackgroundColor(32, 32, 32);
+
     videos.emplace_back("fire_loop.mp4");
     videos.emplace_back("lava_lamp_green_ae_blur.mp4");
     videos.emplace_back("fier_blur.mp4");
@@ -25,14 +27,24 @@ void ofApp::setup(){
 
     num_leds = 150;
     cylinder_rotation = 0;
-    sender.init("/dev/tty.usbmodem364541");
 
-    sender.set_num_leds(2, num_leds);
+    hex_sender.init("/dev/tty.usbmodem364421");
 
     myPlayer.load(*video_it);
     myPlayer.setUseTexture(true);
     myPlayer.setVolume(0);
+    myPlayer.setSpeed(0);
     myPlayer.play();
+
+    int leds_per_strand = 43;
+    hexes.emplace_back(LedHexagon(0, 3, leds_per_strand, 2.5, 5.5));
+    hex_sender.set_num_leds(0, 3*leds_per_strand);
+    hexes.emplace_back(LedHexagon(1, 4, leds_per_strand, 3.5, 5.5));
+    hex_sender.set_num_leds(1, 4*leds_per_strand);
+    hexes.emplace_back(LedHexagon(2, 5, leds_per_strand, 4.5, 5.5));
+    hex_sender.set_num_leds(2, 5*leds_per_strand);
+    hexes.emplace_back(LedHexagon(3, 6, leds_per_strand, 5.5, 5.5));
+    hex_sender.set_num_leds(3, 6*leds_per_strand);
 }
 
 //--------------------------------------------------------------
@@ -54,11 +66,16 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
-    cylinder.setPixels(myPlayer.getPixels());
-    cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5, 1);
-    sender.setPixels(2, cylinder.getPixels());
-    sender.send(2);
+//    cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
+//    cylinder.setPixels(myPlayer.getPixels());
+//    cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5, 1);
+
+    for (auto &hex : hexes) {
+        hex.setPixels(myPlayer.getPixels());
+        hex.render(ofPoint((float)(ofGetWidth() - ofGetHeight())/2, 0, 0), 2, (float)ofGetHeight());
+        hex_sender.setPixels(hex.get_strand_id(), hex.getPixels());
+        hex_sender.send(hex.get_strand_id());
+    }
 }
 
 //--------------------------------------------------------------

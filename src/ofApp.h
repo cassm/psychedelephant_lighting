@@ -3,6 +3,7 @@
 #include <ctime>
 #include "ofMain.h"
 #include "LedCylinder.hpp"
+#include "LedHexagon.hpp"
 #include "LedSender.hpp"
 
 class ofApp : public ofBaseApp{
@@ -26,8 +27,9 @@ public:
     bool switch_video;
     float cylinder_rotation;
     uint16_t  num_leds;
-    LedCylinder cylinder;
-    LedSender sender;
+//    LedCylinder cylinder;
+    std::vector<LedHexagon> hexes;
+    LedSender hex_sender;
     ofVideoPlayer myPlayer;
     std::vector<std::string> videos;
     std::vector<std::string>::iterator video_it;
