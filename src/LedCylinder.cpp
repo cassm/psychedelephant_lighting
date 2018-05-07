@@ -34,33 +34,13 @@ void LedCylinder::init(float radius, float length, float rotation, float n_turns
     }
 }
 
-void LedCylinder::setPixels(ofPixels &p) {
-    for (auto &led : leds) {
-        auto x = static_cast<size_t>((p.getWidth() - 1) * led.input_mapping.x);
-        auto y = static_cast<size_t>((p.getHeight()-1) * led.input_mapping.y);
-        led.color = p.getColor(x, y);
-        //TODO: add sampling?
-    }
-}
-
-ofPixels LedCylinder::getPixels() {
-    ofPixels p;
-    p.allocate(leds.size(), 1, 3);
-
-    for (int i = 0; i < leds.size(); i++) {
-        p.setColor(i, 0, leds[i].color);
-    }
-
-    return p;
-}
-
-void LedCylinder::render(ofPoint origin, float led_size) {
+void LedCylinder::render(ofPoint origin, float led_size, float scale) {
     ofSetColor(ofColor(0,0,0));
     ofFill();
-    ofDrawCylinder(origin, radius_, length_);
+    ofDrawCylinder(origin, radius_*scale, length_*scale);
     for (auto &led : leds) {
         ofSetColor(led.color);
         ofFill();
-        ofDrawSphere(led.output_mapping + origin, led_size);
+        ofDrawSphere(led.output_mapping*scale + origin, led_size);
     }
 }

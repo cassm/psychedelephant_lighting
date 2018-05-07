@@ -56,7 +56,7 @@ void ofApp::update(){
 void ofApp::draw(){
     cylinder.init(28, 350, cylinder_rotation, 13.9, num_leds);
     cylinder.setPixels(myPlayer.getPixels());
-    cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5);
+    cylinder.render(ofPoint((float)ofGetWidth()/2, (float)ofGetHeight()/2, 0), 5, 1);
     sender.setPixels(2, cylinder.getPixels());
     sender.send(2);
 }
