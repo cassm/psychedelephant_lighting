@@ -81,13 +81,15 @@ int process_data_frame() {
     while (true) {
       if (next_byte == frame_start_char) {
         return -1;
-      }
-      else if (next_byte == frame_end_char) {
+
         if (iter++ % 2 == 0) {
           digitalWrite(onboard_led, currentState);
           currentState = !currentState;
           iter = 1;
         }
+        
+      }
+      else if (next_byte == frame_end_char) {
         
         return 0;
       }
@@ -121,47 +123,6 @@ int process_data_frame() {
       i++;
       next_byte = blocking_serial_read(1);
     }
-
-      /*for (int i = 0; i < ledsPerStrip; i++) {
-        int min_channel = 255;
-        uint8_t pixel[3] = {0};
-        
-        for (int j = 0; j < 3; j++) {
-          pixel[j] = blocking_serial_read(1);
-    
-          if (pixel[j] < min_channel) {
-            min_channel = pixel[j];
-          }
-        }
-    
-        uint32_t val = (pixel[0]-min_channel) << 24 |
-                       (pixel[1]-min_channel) << 16 |
-                       (pixel[2]-min_channel) <<  8 |
-                       min_channel;
-    
-        leds.setPixel(strip_id*ledsPerStrip + i, val);
-      }
-      
-  
-      
-    }
-      =----
-      uint8_t next_byte = blocking_serial_read(1);
-      
-      while (true) {
-        if (next_byte == frame_start_char) {
-          return -1;
-        }
-        else if (next_byte == frame_end_char) {
-          render(strip_id, (i+1)/3);
-          return 0;
-        }
-
-        if (i <= ledsPerStrip*3) {
-          buffers[strip_id][i/3][i%3] = next_byte;
-        }
-      }
-    }*/
 }
 
 void setup() {
