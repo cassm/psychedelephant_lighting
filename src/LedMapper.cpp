@@ -30,4 +30,6 @@ void LedMapper::render(ofPoint origin, float led_size, float scale) {
         ofFill();
         ofDrawSphere(led.output_mapping*scale + origin, led_size);
     }
+
+    ofSetColor(255,255,255); // reset draw color after use
 }
