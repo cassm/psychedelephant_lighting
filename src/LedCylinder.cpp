@@ -38,9 +38,6 @@ void LedCylinder::render(ofPoint origin, float led_size, float scale) {
     ofSetColor(ofColor(0,0,0));
     ofFill();
     ofDrawCylinder(origin, radius_*scale, length_*scale);
-    for (auto &led : leds) {
-        ofSetColor(led.color);
-        ofFill();
-        ofDrawSphere(led.output_mapping*scale + origin, led_size);
-    }
+
+    LedMapper::render(origin, led_size, scale);
 }

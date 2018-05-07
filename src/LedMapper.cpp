@@ -24,3 +24,10 @@ ofPixels LedMapper::getPixels() {
     return p;
 }
 
+void LedMapper::render(ofPoint origin, float led_size, float scale) {
+    for (auto &led : leds) {
+        ofSetColor(led.color);
+        ofFill();
+        ofDrawSphere(led.output_mapping*scale + origin, led_size);
+    }
+}

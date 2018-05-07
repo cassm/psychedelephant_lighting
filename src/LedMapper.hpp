@@ -12,7 +12,7 @@ class LedMapper {
 public:
     void setPixels(ofPixels &p);
     ofPixels getPixels();
-    virtual void render(ofPoint origin, float led_size, float scale) = 0;
+    virtual void render(ofPoint origin, float led_size, float scale);
 
 protected:
     struct ledInfo {
