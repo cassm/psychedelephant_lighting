@@ -23,7 +23,7 @@ public:
     
     void init(float radius, float length, float rotation, float n_turns, int n_leds);
 
-    void render(ofPoint origin, float led_size, float scale);
+    void render(ofPoint origin, float led_size, float scale) override;
 
 private:
     float radius_;
