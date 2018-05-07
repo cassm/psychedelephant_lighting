@@ -47,3 +47,5 @@ set( OFX_ADDONS_ACTIVE
 include( ${OF_DIRECTORY_BY_USER}/addons/ofxCMake/modules/main.cmake )
 # =========================================================================
 
+include_directories("/usr/local/Cellar/boost/1.67.0_1/include/boost")
+
