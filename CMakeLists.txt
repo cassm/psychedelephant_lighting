@@ -24,7 +24,8 @@ set( ${APP_NAME}_SOURCE_FILES
         src/ledCylinder.cpp
         src/ledHexagon.cpp
         src/ledMapper.cpp
-        src/ledSender.cpp )
+        src/ledSender.cpp
+        )
 
 
 # ------------------------ AddOns  -----------------------
@@ -50,3 +51,4 @@ include( ${OF_DIRECTORY_BY_USER}/addons/ofxCMake/modules/main.cmake )
 
 include_directories("/usr/local/Cellar/boost/1.67.0_1/include/boost")
 
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -framework GLUT -framework OpenGL")

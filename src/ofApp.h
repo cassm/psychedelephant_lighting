@@ -24,15 +24,23 @@ public:
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
 
-    bool switch_video;
-    float cylinder_rotation;
+    struct playerContainer {
+        ofVideoPlayer player;
+        std::vector<std::string> videos;
+        std::vector<std::string>::iterator it;
+        bool switch_video;
+    };
+
     uint16_t  num_leds;
-//    LedCylinder cylinder;
+    std::vector<LedCylinder> cylinders;
     std::vector<LedHexagon> hexes;
     LedSender hex_sender;
-    ofVideoPlayer myPlayer;
-    std::vector<std::string> videos;
-    std::vector<std::string>::iterator video_it;
+    LedSender cylinder_sender;
+    playerContainer hex_player;
+    playerContainer cylinder_player;
 
     ofImage proj;
+
+    ofEasyCam cam; // add mouse controls for camera movement
+    ofPoint camOffset;
 };

@@ -14,7 +14,7 @@ public:
     ofPixels getPixels();
     virtual void render(ofPoint origin, float led_size, float scale);
 
-protected:
+//protected:
     struct ledInfo {
         ofPoint input_mapping; // indexed 0 -> 1
         ofPoint output_mapping; // indexed 0 -> 1

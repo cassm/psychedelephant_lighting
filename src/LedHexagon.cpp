@@ -32,9 +32,11 @@ LedHexagon::LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, f
 
         led.input_mapping.x = static_cast<float>(side_origin_x + position_on_side*side_diff_x + 0.5);
         led.input_mapping.y = static_cast<float>(side_origin_y + position_on_side*side_diff_y + 0.5);
+        led.input_mapping.z = 0;
 
-        led.output_mapping.x = led.input_mapping.x;
-        led.output_mapping.y = led.input_mapping.y;
+        led.output_mapping.x = led.input_mapping.x - 0.5;
+        led.output_mapping.y = led.input_mapping.y - 0.5;
+        led.output_mapping.z = sin(3.14 * position_on_side) * diameter_/2 * 0.0003;
 
         leds.emplace_back(led);
     }

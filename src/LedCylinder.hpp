@@ -19,13 +19,15 @@
 class LedCylinder : public LedMapper {
 public:
     LedCylinder() = default;
+    LedCylinder(int strand_id, ofPoint xy_location, float radius, float length, float rotation, float n_turns, int n_leds);
     ~LedCylinder() = default;
     
-    void init(float radius, float length, float rotation, float n_turns, int n_leds);
 
     void render(ofPoint origin, float led_size, float scale) override;
+    const int strand_id_;
 
 private:
+    ofPoint xy_location_;
     float radius_;
     float length_;
 };
