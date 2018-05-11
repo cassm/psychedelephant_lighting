@@ -41,6 +41,5 @@ public:
 
     ofImage proj;
 
-    ofEasyCam cam; // add mouse controls for camera movement
-    ofPoint camOffset;
+    ofCamera cam; // add mouse controls for camera movement
 };

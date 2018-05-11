@@ -2,6 +2,11 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    cam.resetTransform();
+    cam.setFov(60);
+    cam.clearParent();
+    cam.setPosition(0, 0, 450);
+
 //    ofSetBackgroundColor(0, 0, 0);
 //    proj.load("projectionMaskBlack.png");
     ofSetBackgroundColor(32, 32, 32);
@@ -112,15 +117,12 @@ void ofApp::draw() {
     cam.begin();
 
 
-    cam.setDistance(400); // start at the edge of the dome
     ofRotateX(90); // work on the horizontal plane
     ofTranslate(0,0,-150); // raise roof
 
     ofSetColor(128,128,128);
     ofDrawCircle(ofPoint(0,0,350), 500); // draw floor
     ofSetColor(255,255,255);
-
-    ofTranslate(camOffset); // move with wsad
 
     float screenDiameter = 168;
     float height = screenDiameter;
@@ -152,30 +154,67 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if (key == 'h') {
-        hex_player.switch_video = true;
-    }
-    else if (key == 'c') {
-        cylinder_player.switch_video = true;
-    }
-    else if (key == 'w') {
-        camOffset.y += 20;
-    }
-    else if (key == 's') {
-        camOffset.y -= 20;
-    }
-    else if (key == 'a') {
-        camOffset.x += 20;
-    }
-    else if (key == 'd') {
-        camOffset.x -= 20;
-    }
-    else if (key == 'r') {
-        cam.setOrientation(ofVec3f(0,0,0));
-        camOffset = ofPoint(0,0,0);
+    int kRotInc = 5;
+    int kMoveInc = 10;
+
+    switch (key) {
+        case 'h':
+            hex_player.switch_video = true;
+            break;
+        case 'c':
+            cylinder_player.switch_video = true;
+            break;
+
+        case OF_KEY_LEFT:
+            cam.pan(kRotInc);
+            break;
+        case OF_KEY_RIGHT:
+            cam.pan(-kRotInc);
+            break;
+
+        case OF_KEY_UP:
+            cam.tilt(-kRotInc);
+            break;
+        case OF_KEY_DOWN:
+            cam.tilt(kRotInc);
+            break;
+
+        case ',':
+            cam.roll(kRotInc);
+            break;
+        case '.':
+            cam.roll(-kRotInc);
+            break;
+
+        case 'a':
+            cam.truck(-kMoveInc);
+            break;
+        case 'd':
+            cam.truck(kMoveInc);
+            break;
+
+        case 'w':
+            cam.dolly(-kMoveInc);
+            break;
+        case 's':
+            cam.dolly(kMoveInc);
+            break;
+
+        case 'r':
+            cam.boom(kMoveInc);
+            break;
+        case 'f':
+            cam.boom(-kMoveInc);
+            break;
+
+        case 'z':
+            cam.resetTransform();
+            cam.setFov(60);
+            cam.clearParent();
+            cam.setPosition(0, 0, 450);
+            break;
     }
 
-    ofRotateX(90); // work on the horizontal plane
 }
 
 //--------------------------------------------------------------
