@@ -81,15 +81,14 @@ int process_data_frame() {
     while (true) {
       if (next_byte == frame_start_char) {
         return -1;
-
+        
+      }
+      else if (next_byte == frame_end_char) {
         if (iter++ % 2 == 0) {
           digitalWrite(onboard_led, currentState);
           currentState = !currentState;
           iter = 1;
         }
-        
-      }
-      else if (next_byte == frame_end_char) {
         
         return 0;
       }
