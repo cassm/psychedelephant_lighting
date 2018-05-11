@@ -5,10 +5,14 @@
 #include "LedCylinder.hpp"
 #include "LedHexagon.hpp"
 #include "LedSender.hpp"
+#include "SharedTypes.hpp"
+#include "ofxDatGui.h"
+//#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 public:
     void setup() override;
+//    void exit() override;
     void update() override;
     void draw() override;
 
@@ -24,13 +28,6 @@ public:
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
 
-    struct playerContainer {
-        ofVideoPlayer player;
-        std::vector<std::string> videos;
-        std::vector<std::string>::iterator it;
-        bool switch_video;
-    };
-
     uint16_t  num_leds;
     std::vector<LedCylinder> cylinders;
     std::vector<LedHexagon> hexes;
@@ -42,4 +39,6 @@ public:
     ofImage proj;
 
     ofCamera cam; // add mouse controls for camera movement
+
+    ofxDatGui gui;
 };

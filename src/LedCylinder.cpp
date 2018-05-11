@@ -9,7 +9,6 @@
 
 LedCylinder::LedCylinder(int strand_id, ofPoint xy_location, float radius, float length, float rotation, float n_turns, int n_leds)
         : strand_id_(strand_id) {
-    glEnable (GL_DEPTH_TEST);   // Enables Depth Testing
     ofSetBackgroundAuto(true);
 
     xy_location_ = xy_location;

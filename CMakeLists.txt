@@ -41,6 +41,7 @@ set( OFX_ADDONS_ACTIVE
         #        ofxOpenCv
         #        ofxSvg
         #        ofxEmscripten (untested)
+                 ofxDatGui
                 )
 
 # =========================================================================

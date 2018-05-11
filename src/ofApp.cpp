@@ -2,6 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetVerticalSync(true);
+
+    gui = ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
+    gui.addButton("Click!");
+    gui.addLabel("Bunting");
+    gui.addSlider("CIRCLE X", 0, 100);
+
     cam.resetTransform();
     cam.setFov(60);
     cam.clearParent();
@@ -12,28 +19,18 @@ void ofApp::setup(){
     ofSetBackgroundColor(32, 32, 32);
     proj.load("projectionMaskGrey.png");
 
-    hex_player.videos.emplace_back("HX-01.mp4");
     hex_player.videos.emplace_back("hx-01-bonus-01.mp4");
     hex_player.videos.emplace_back("hx-01-bonus-02.mp4");
+    hex_player.videos.emplace_back("HX-01.mp4");
     hex_player.videos.emplace_back("big_sheep.mp4");
     hex_player.videos.emplace_back("shpongle.mp4");
+    hex_player.videos.emplace_back("big.mp4");
 
     cylinder_player.videos.emplace_back("fire_loop.mp4");
     cylinder_player.videos.emplace_back("hx-01-bonus-01.mp4");
     cylinder_player.videos.emplace_back("big_sheep.mp4");
     cylinder_player.videos.emplace_back("smoke.mp4");
     cylinder_player.videos.emplace_back("swoosh.mp4");
-
-//    videos.emplace_back("lava_lamp_green_ae_blur.mp4");
-//    videos.emplace_back("smoke.mp4");
-//    videos.emplace_back("big.mp4");
-//    videos.emplace_back("warp.mp4");
-//    videos.emplace_back("pulsate.mp4");
-//    videos.emplace_back("pshooo.mp4");
-//    videos.emplace_back("ripple.mp4");
-//    videos.emplace_back("wobble.mp4");
-//    videos.emplace_back("swoosh.mp4");
-//    videos.emplace_back("hors.mp4");
 
     hex_player.it = hex_player.videos.begin();
     cylinder_player.it = cylinder_player.videos.begin();
@@ -69,7 +66,6 @@ void ofApp::setup(){
     cylinder_player.player.load(*cylinder_player.it);
     cylinder_player.player.setUseTexture(true);
     cylinder_player.player.setVolume(0);
-//    cylinder_player.setSpeed(0);
     cylinder_player.player.play();
 
     int leds_per_strand = 43;
@@ -84,6 +80,7 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
+
 void ofApp::update(){
     hex_player.player.update();
     cylinder_player.player.update();
@@ -114,8 +111,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    cam.begin();
+    glEnable (GL_DEPTH_TEST);   // Enables Depth Testing
 
+    cam.begin();
 
     ofRotateX(90); // work on the horizontal plane
     ofTranslate(0,0,-150); // raise roof
@@ -150,6 +148,8 @@ void ofApp::draw() {
     }
 
     cam.end();
+
+    glDisable (GL_DEPTH_TEST);   // Disables Depth Testing
 }
 
 //--------------------------------------------------------------
@@ -173,10 +173,10 @@ void ofApp::keyPressed(int key){
             break;
 
         case OF_KEY_UP:
-            cam.tilt(-kRotInc);
+            cam.tilt(kRotInc);
             break;
         case OF_KEY_DOWN:
-            cam.tilt(kRotInc);
+            cam.tilt(-kRotInc);
             break;
 
         case ',':
