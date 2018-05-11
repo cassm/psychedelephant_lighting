@@ -117,7 +117,7 @@ void ofApp::draw() {
     ofTranslate(0,0,-150); // raise roof
 
     ofSetColor(128,128,128);
-    ofDrawCircle(ofPoint(0,0,500), 500); // draw floor
+    ofDrawCircle(ofPoint(0,0,350), 500); // draw floor
     ofSetColor(255,255,255);
 
     ofTranslate(camOffset); // move with wsad
