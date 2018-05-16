@@ -5,8 +5,8 @@
 #include "LedCylinder.hpp"
 #include "LedHexagon.hpp"
 #include "LedSender.hpp"
+#include "GuiBlock.hpp"
 #include "SharedTypes.hpp"
-#include "ofxDatGui.h"
 //#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
@@ -28,17 +28,39 @@ public:
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
 
-    uint16_t  num_leds;
-    std::vector<LedCylinder> cylinders;
-    std::vector<LedHexagon> hexes;
-    LedSender hex_sender;
-    LedSender cylinder_sender;
-    playerContainer hex_player;
-    playerContainer cylinder_player;
+    void onScreenButtonEvent(ofxDatGuiButtonEvent e) {
+        screen_gui.processButtonEvent(static_cast<ofxDatGuiToggle*>(e.target));
+    }
 
-    ofImage proj;
+    void onLanternButtonEvent(ofxDatGuiButtonEvent e) {
+        lantern_gui.processButtonEvent(static_cast<ofxDatGuiToggle*>(e.target));
+    }
+
+    uint16_t  num_leds;
+    std::vector<LedCylinder> lanterns;
+    std::vector<LedHexagon> bunting_strands;
+    LedSender bunting_sender;
+    LedSender lantern_sender;
+    playerContainer screen_player;
+    playerContainer lantern_player;
+
+    ofImage screen_mask;
 
     ofCamera cam; // add mouse controls for camera movement
 
-    ofxDatGui gui;
+    ofxDatGui lantern_gui_obj;
+    GuiBlock lantern_gui;
+
+    ofxDatGui screen_gui_obj;
+    GuiBlock screen_gui;
+
+//    ofxDatGui hex_gui;
+//    std::vector<ofxDatGuiToggle*> hex_video_toggles;
+    float hex_brightness;
+//
+//    ofxDatGui bunting_gui;
+//    BuntingMode bunting_mode;
+//    std::vector<ofxDatGuiToggle*> bunting_mode_toggles;
+    float bunting_brightness;
+
 };

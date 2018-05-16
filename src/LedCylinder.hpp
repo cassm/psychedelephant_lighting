@@ -23,7 +23,7 @@ public:
     ~LedCylinder() = default;
     
 
-    void render(ofPoint origin, float led_size, float scale) override;
+    void render(ofPoint origin, float led_size, float scale, float brightness) override;
     const int strand_id_;
 
 private:

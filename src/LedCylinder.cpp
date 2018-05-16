@@ -35,7 +35,7 @@ LedCylinder::LedCylinder(int strand_id, ofPoint xy_location, float radius, float
     }
 }
 
-void LedCylinder::render(ofPoint origin, float led_size, float scale) {
+void LedCylinder::render(ofPoint origin, float led_size, float scale, float brightness) {
     ofSetColor(ofColor(0,0,0));
     ofFill();
     ofPushMatrix();
@@ -47,6 +47,6 @@ void LedCylinder::render(ofPoint origin, float led_size, float scale) {
     ofDrawCylinder(radius_*scale, length_*scale);
     ofPopMatrix();
 
-    LedMapper::render(origin, led_size, scale);
+    LedMapper::render(origin, led_size, scale, brightness);
     ofPopMatrix();
 }

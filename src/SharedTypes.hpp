@@ -6,10 +6,15 @@
 #define OPENFRAMEWORKS_SHAREDTYPES_HPP
 
 struct playerContainer {
+    playerContainer() { brightness = 100; }
     ofVideoPlayer player;
-    std::vector<std::string> videos;
-    std::vector<std::string>::iterator it;
     bool switch_video;
+    std::string video_name;
+    float brightness;
+};
+
+enum SystemMode { SET_FROM_SCREEN,
+                   SET_FROM_MANUAL,
 };
 
 #endif //OPENFRAMEWORKS_SHAREDTYPES_HPP

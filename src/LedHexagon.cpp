@@ -41,3 +41,8 @@ LedHexagon::LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, f
         leds.emplace_back(led);
     }
 }
+void LedHexagon::setFromColor(ofColor color) {
+    for (auto &led : leds) {
+        led.color = color;
+    }
+}

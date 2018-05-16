@@ -13,6 +13,7 @@ class LedHexagon : public LedMapper {
 public:
     LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, float diameter_, float max_diameter_);
     int get_strand_id() { return strand_id; }
+    void setFromColor(ofColor color);
 private:
     int strand_id;
 };

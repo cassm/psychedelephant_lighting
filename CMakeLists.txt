@@ -25,6 +25,7 @@ set( ${APP_NAME}_SOURCE_FILES
         src/ledHexagon.cpp
         src/ledMapper.cpp
         src/ledSender.cpp
+        src/GuiBlock.cpp
         )
 
 
@@ -32,7 +33,7 @@ set( ${APP_NAME}_SOURCE_FILES
 set( OFX_ADDONS_ACTIVE
         #        ofxXmlSettings
         #        ofxOsc
-        #        ofxGui
+#                 ofxGui
         #        ofxNetwork
         #        ofxVectorGraphics
         #        ofxThreadedImageLoader
