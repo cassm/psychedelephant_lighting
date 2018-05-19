@@ -40,7 +40,7 @@ void LedSender::set_num_leds(uint8_t strip_id_, uint16_t num_leds_) {
     }
 }
 
-void LedSender::send(uint8_t strip_id_) {
+void LedSender::send(uint8_t strip_id_, float brightness) {
     if (strip_id_ < num_strips) {
         if (port.is_open()) {
             uint8_t header[2];
@@ -55,9 +55,9 @@ void LedSender::send(uint8_t strip_id_) {
                 if (i < strands[strip_id_].p.getWidth() - 1) {
                     ofColor col = strands[strip_id_].p.getColor(static_cast<size_t>(i), 0);
 
-                    pixel[0] = col.r;
-                    pixel[1] = col.g;
-                    pixel[2] = col.b;
+                    pixel[0] = col.r * brightness;
+                    pixel[1] = col.g * brightness;
+                    pixel[2] = col.b * brightness;
                 }
                 else {
                     pixel[0] = 0x00;

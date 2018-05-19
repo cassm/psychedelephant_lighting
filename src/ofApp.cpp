@@ -4,9 +4,13 @@
 void ofApp::setup(){
     ofSetVerticalSync(true);
 
+    ofxDatGuiTheme *inactive_theme = new NellieThemeInactive;
+    ofxDatGuiTheme *active_theme = new NellieThemeActive;
+
     screen_gui_obj = ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
-    screen_gui = GuiBlock("Screen", &screen_player, &screen_gui_obj);
+    screen_gui = GuiBlock("Screen", &screen_player, &screen_gui_obj, active_theme, inactive_theme);
     screen_gui_obj.onButtonEvent(this, &ofApp::onScreenButtonEvent);
+//    screen_gui_obj.onSliderEvent(this, &ofApp::doNothing);
     screen_gui.add_video("    HX-01 Bonus 1", "hx-01-bonus-01.mp4", true);
     screen_gui.add_video("    HX-01 Bonus 2", "hx-01-bonus-02.mp4");
     screen_gui.add_video("    HX-01", "HX-01.mp4");
@@ -14,43 +18,38 @@ void ofApp::setup(){
     screen_gui.add_video("    Shpongle Set", "shpongle.mp4");
     screen_gui.add_video("    Clip series", "big.mp4");
     screen_gui.add_brightness_slider();
+    screen_gui_obj.setTheme(inactive_theme);
 
     lantern_gui_obj = ofxDatGui(0, screen_gui_obj.getHeight() + 20);
-    lantern_gui = GuiBlock("Lanterns", &lantern_player, &lantern_gui_obj);
+    lantern_gui = GuiBlock("Lanterns", &lantern_player, &lantern_gui_obj, active_theme, inactive_theme);
     lantern_gui_obj.onButtonEvent(this, &ofApp::onLanternButtonEvent);
+//    lantern_gui_obj.onSliderEvent(this, &ofApp::doNothing);
     lantern_gui.add_video("    Fire", "fire_loop.mp4", true);
     lantern_gui.add_video("    HX-01 Bonus 1", "hx-01-bonus-01.mp4");
     lantern_gui.add_video("    Electric Sheep", "big_sheep.mp4");
     lantern_gui.add_video("    Smoke", "smoke.mp4");
     lantern_gui.add_video("    Swoosh", "swoosh.mp4");
     lantern_gui.add_brightness_slider();
+    lantern_gui.update_theme();
+    lantern_gui_obj.setTheme(inactive_theme);
 
-//    hex_brightness = 100;
-//    bunting_brightness = 100;
-//
-//    bunting_mode = SET_FROM_SCREEN;
-//
-//
-//    hex_gui = ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
-//    hex_gui.addLabel("Screen");
-//
-//    for (auto &video_name : screen_player.videos) {
-//        hex_video_toggles.emplace_back(hex_gui.addToggle(video_name, false));
-//    }
-//    hex_video_toggles.front()->setChecked(true);
-//
-//    hex_gui.onButtonEvent(this, &ofApp::onButtonEvent);
-//
-//
-//    bunting_gui = ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-//    bunting_gui.addLabel("Bunting");
-//
-//    bunting_mode_toggles.emplace_back(bunting_gui.addToggle("Set from screen", false));
-//    bunting_mode_toggles.emplace_back(bunting_gui.addToggle("Set manually", false));
-//    bunting_mode_toggles.front()->setChecked(true);
-//
-//    bunting_gui.onButtonEvent(this, &ofApp::onButtonEvent);
+    bunting_gui_obj = ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    bunting_gui = GuiBlock("Bunting", &bunting_player, &bunting_gui_obj, active_theme, inactive_theme);
+    bunting_gui_obj.onButtonEvent(this, &ofApp::onBuntingButtonEvent);
+//    bunting_gui_obj.onSliderEvent(this, &ofApp::doNothing);
+    bunting_gui.add_mode("    Set from screen", SET_FROM_SCREEN, true);
+    bunting_gui.add_mode("    Set manually", SET_FROM_MANUAL);
+    bunting_gui_obj.addColorPicker("Manual Color");
+    bunting_gui_obj.onColorPickerEvent(this, &ofApp::onBuntingColorPickerEvent);
+    bunting_gui.add_video("    HX-01 Bonus 1", "hx-01-bonus-01.mp4");
+    bunting_gui.add_video("    HX-01 Bonus 2", "hx-01-bonus-02.mp4");
+    bunting_gui.add_video("    HX-01", "HX-01.mp4");
+    bunting_gui.add_video("    Electric Sheep", "big_sheep.mp4");
+    bunting_gui.add_video("    Shpongle Set", "shpongle.mp4");
+    bunting_gui.add_video("    Swoosh", "swoosh.mp4");
+    bunting_gui_obj.setTheme(inactive_theme);
 
+    palette.load("base_palette.png");
 
     cam.resetTransform();
     cam.setFov(60);
@@ -61,12 +60,6 @@ void ofApp::setup(){
 //    screen_mask.load("projectionMaskBlack.png");
     ofSetBackgroundColor(32, 32, 32);
     screen_mask.load("projectionMaskGrey.png");
-
-//    lantern_player.videos.emplace_back("fire_loop.mp4");
-//    lantern_player.videos.emplace_back("hx-01-bonus-01.mp4");
-//    lantern_player.videos.emplace_back("big_sheep.mp4");
-//    lantern_player.videos.emplace_back("smoke.mp4");
-//    lantern_player.videos.emplace_back("swoosh.mp4");
 
     num_leds = 150;
 
@@ -104,25 +97,44 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 
 void ofApp::update(){
+    screen_gui.update_theme();
+    lantern_gui.update_theme();
+    bunting_gui.update_theme();
+
     if (screen_player.switch_video) {
-        screen_player.player.load(screen_player.video_name);
-        screen_player.player.setUseTexture(true);
-        screen_player.player.play();
-        screen_player.player.setVolume(0);
+        if (screen_player.video_name != screen_player.player.getMoviePath()) {
+            screen_player.player.load(screen_player.video_name);
+            screen_player.player.setUseTexture(true);
+            screen_player.player.play();
+            screen_player.player.setVolume(0);
+        }
 
         screen_player.switch_video = false;
     }
     if (lantern_player.switch_video) {
-        lantern_player.player.load(lantern_player.video_name);
-        lantern_player.player.setUseTexture(true);
-        lantern_player.player.play();
-        lantern_player.player.setVolume(0);
+        if (lantern_player.video_name != lantern_player.player.getMoviePath()) {
+            lantern_player.player.load(lantern_player.video_name);
+            lantern_player.player.setUseTexture(true);
+            lantern_player.player.play();
+            lantern_player.player.setVolume(0);
+        }
 
         lantern_player.switch_video = false;
+    }
+    if (bunting_player.switch_video) {
+        if (bunting_player.video_name != bunting_player.player.getMoviePath()) {
+            bunting_player.player.load(bunting_player.video_name);
+            bunting_player.player.setUseTexture(true);
+            bunting_player.player.play();
+            bunting_player.player.setVolume(0);
+        }
+
+        bunting_player.switch_video = false;
     }
 
     screen_player.player.update();
     lantern_player.player.update();
+    bunting_player.player.update();
 }
 
 //--------------------------------------------------------------
@@ -143,32 +155,39 @@ void ofApp::draw() {
     float maskWidth = height / screen_mask.getHeight() * screen_mask.getWidth();
     float videoWidth = height / screen_player.player.getHeight() * screen_player.player.getWidth();
 
-    ofSetColor(255*screen_player.brightness/100);
-    screen_player.player.draw(0 - videoWidth / 2, 0 - height / 2, videoWidth, height);
-    ofSetColor(255);
+    if (screen_player.player.isLoaded()) {
+        ofSetColor(255 * screen_player.brightness / 100);
+        screen_player.player.draw(0 - videoWidth / 2, 0 - height / 2, videoWidth, height);
+        ofSetColor(255);
+    }
     screen_mask.draw(maskWidth / -2, height / -2, 0.125, maskWidth, height);
     screen_mask.draw(maskWidth / -2, height / -2, -0.125, maskWidth, height);
 
     int i = 1;
 
     for (auto &strand : bunting_strands) {
-//        if (bunting_mode == SET_FROM_SCREEN) {
+        if (bunting_player.mode == SET_FROM_SCREEN && screen_player.player.isLoaded()) {
             strand.setPixels(screen_player.player.getPixels());
-//        }
-//        else if (bunting_mode == SET_FROM_MANUAL) {
-//            strand.setFromColor(manual_color);
-//        }
+        }
+        else if (bunting_player.mode == SET_FROM_VIDEO && bunting_player.player.isLoaded()) {
+            strand.setPixels(bunting_player.player.getPixels());
+        }
+        else if (bunting_player.mode == SET_FROM_MANUAL) {
+            strand.setFromColor(bunting_player.color);
+        }
 
-        strand.render(ofPoint(0, 0, i++ * 10), 1, 550, (float)bunting_brightness/100);
+        strand.render(ofPoint(0, 0, i++ * 10), 1, 550, static_cast<float>(bunting_player.brightness)/100);
         bunting_sender.setPixels(strand.get_strand_id(), strand.getPixels());
-        bunting_sender.send(strand.get_strand_id());
+        bunting_sender.send(strand.get_strand_id(), static_cast<float>(bunting_player.brightness)/100);
     }
 
     for (auto &lantern : lanterns) {
-        lantern.setPixels(lantern_player.player.getPixels());
+        if (lantern_player.player.isLoaded()) {
+            lantern.setPixels(lantern_player.player.getPixels());
+        }
         lantern.render(ofPoint(0, 0, 60 + 35 / 2), 2, 1, static_cast<float>(lantern_player.brightness)/100);
         lantern_sender.setPixels(lantern.strand_id_, lantern.getPixels());
-        lantern_sender.send(lantern.strand_id_);
+        lantern_sender.send(lantern.strand_id_, static_cast<float>(lantern_player.brightness)/100);
     }
 
     cam.end();

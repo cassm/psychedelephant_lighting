@@ -20,7 +20,7 @@ public:
     void init(std::string port_str);
     void setPixels(uint8_t strip_id_, const ofPixels &p_);
     void set_num_leds(uint8_t strip_id_, uint16_t num_leds_);
-    void send(uint8_t strip_id_);
+    void send(uint8_t strip_id_, float brightness);
 //    void start_read();
 //    void handle_read(const boost::system::error_code& ec);
 

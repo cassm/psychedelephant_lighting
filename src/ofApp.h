@@ -36,31 +36,40 @@ public:
         lantern_gui.processButtonEvent(static_cast<ofxDatGuiToggle*>(e.target));
     }
 
-    uint16_t  num_leds;
-    std::vector<LedCylinder> lanterns;
-    std::vector<LedHexagon> bunting_strands;
-    LedSender bunting_sender;
-    LedSender lantern_sender;
-    playerContainer screen_player;
-    playerContainer lantern_player;
+    void onBuntingButtonEvent(ofxDatGuiButtonEvent e) {
+        bunting_gui.processButtonEvent(static_cast<ofxDatGuiToggle*>(e.target));
+    }
 
-    ofImage screen_mask;
+    void onBuntingColorPickerEvent(ofxDatGuiColorPickerEvent e)
+    {
+        bunting_player.color = e.color;
+    }
+
+    void doNothing(ofxDatGuiColorPickerEvent e)
+    {
+    }
+
+    uint16_t  num_leds;
+
+    ofImage palette;
 
     ofCamera cam; // add mouse controls for camera movement
 
-    ofxDatGui lantern_gui_obj;
-    GuiBlock lantern_gui;
 
     ofxDatGui screen_gui_obj;
     GuiBlock screen_gui;
+    playerContainer screen_player;
+    ofImage screen_mask;
 
-//    ofxDatGui hex_gui;
-//    std::vector<ofxDatGuiToggle*> hex_video_toggles;
-    float hex_brightness;
-//
-//    ofxDatGui bunting_gui;
-//    BuntingMode bunting_mode;
-//    std::vector<ofxDatGuiToggle*> bunting_mode_toggles;
-    float bunting_brightness;
+    ofxDatGui lantern_gui_obj;
+    GuiBlock lantern_gui;
+    std::vector<LedCylinder> lanterns;
+    LedSender lantern_sender;
+    playerContainer lantern_player;
 
+    ofxDatGui bunting_gui_obj;
+    GuiBlock bunting_gui;
+    std::vector<LedHexagon> bunting_strands;
+    LedSender bunting_sender;
+    playerContainer bunting_player;
 };
