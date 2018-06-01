@@ -5,7 +5,9 @@
 #include "LedHexagon.hpp"
 #include <cmath>
 
-LedHexagon::LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, float diameter_, float max_diameter_) : strand_id(strand_id_) {
+LedHexagon::LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, float diameter_, float max_diameter_, float scale_, float led_size_, ofPoint origin_)
+        : LedMapper(strand_id_, origin_, led_size_) {
+    origin = origin_;
     int num_leds = num_strings_ * leds_per_strand_;
     float leds_per_side = static_cast<float>(num_leds) / 6;
 
@@ -34,12 +36,16 @@ LedHexagon::LedHexagon(int strand_id_, int num_strings_, int leds_per_strand_, f
         led.input_mapping.y = static_cast<float>(side_origin_y + position_on_side*side_diff_y + 0.5);
         led.input_mapping.z = 0;
 
-        led.output_mapping.x = led.input_mapping.x - 0.5;
-        led.output_mapping.y = led.input_mapping.y - 0.5;
-        led.output_mapping.z = sin(3.14 * position_on_side) * diameter_/2 * 0.0003;
+        led.output_mapping.x = (led.input_mapping.x - 0.5) * scale_ + origin.x;
+        led.output_mapping.y = (led.input_mapping.y - 0.5) * scale_ + origin.y;
+        led.output_mapping.z = (sin(3.14 * position_on_side) * diameter_/2 * 0.0003) * scale_ + origin.z;
+
+        led.theta = atan2(led.output_mapping.x, led.output_mapping.y) * 180 / 3.14;
+        led.delta = sqrt(led.output_mapping.x*led.output_mapping.x + led.output_mapping.y*led.output_mapping.y + led.output_mapping.z*led.output_mapping.z);
 
         leds.emplace_back(led);
     }
+    std::cout << std::endl;
 }
 void LedHexagon::setFromColor(ofColor color) {
     for (auto &led : leds) {

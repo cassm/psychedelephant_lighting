@@ -26,6 +26,8 @@ set( ${APP_NAME}_SOURCE_FILES
         src/ledMapper.cpp
         src/ledSender.cpp
         src/GuiBlock.cpp
+        src/PaletteMapper.cpp
+        src/ProjectorView.cpp
         )
 
 

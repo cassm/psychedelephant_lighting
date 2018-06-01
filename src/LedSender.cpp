@@ -19,7 +19,6 @@ void LedSender::init(std::string port_str) {
     catch(const std::exception& e) {
         ofLogNotice("LedSender::init") << "Error opening serial port: " << e.what();
     }
-
 }
 
 LedSender::~LedSender() {

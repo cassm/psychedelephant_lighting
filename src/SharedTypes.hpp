@@ -10,12 +10,33 @@
 enum SystemMode { SET_FROM_SCREEN,
                   SET_FROM_VIDEO,
                   SET_FROM_MANUAL,
-                  SMOOTH_PALETTE,
+                  SET_FROM_PALETTE_SMOOTH,
+                  SET_FROM_PALETTE_SPARKLE,
+};
+
+struct ledInfo {
+    ofPoint input_mapping; // indexed 0 -> 1
+    ofPoint output_mapping; // indexed 0 -> 1
+
+    float delta;
+    float theta;
+
+    ofColor color;
+    ofColor last_color;
+
+    ofColor sparkle_color;
+    std::chrono::high_resolution_clock::time_point sparkle_time;
+};
+
+enum paletteMode {
+    mode_concentric,
+    mode_radial,
 };
 
 struct playerContainer {
-    playerContainer() : brightness(100), mode(SET_FROM_SCREEN), color(0) {}
-    ofVideoPlayer player;
+    playerContainer() : player(new ofVideoPlayer), brightness(100), mode(SET_FROM_SCREEN), color(0) {}
+    ~playerContainer() {if (player != NULL) delete player;}
+    ofVideoPlayer *player;
     bool switch_video;
     std::string video_name;
     float brightness;
