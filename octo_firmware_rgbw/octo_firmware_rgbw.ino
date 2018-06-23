@@ -100,18 +100,9 @@ int process_data_frame() {
         pixel[channelIndex] = next_byte;
 
         if (channelIndex == 2) {
-          int min_channel = 255;
-
-          for (int j = 0; j < 3; j++) {
-            if (pixel[j] < min_channel) {
-              min_channel = pixel[j];
-            }
-          }
-          
-          uint32_t val = gamma_table[pixel[0]-min_channel] << 24 |
-                         gamma_table[pixel[1]-min_channel] << 16 |
-                         gamma_table[pixel[2]-min_channel] <<  8 |
-                         gamma_table[min_channel];
+          uint32_t val = gamma_table[pixel[1]] << 16 |
+                         gamma_table[pixel[0]] << 8 |
+                         gamma_table[pixel[2]];
       
           leds.setPixel(strip_id*ledsPerStrip + pixelIndex, val);
         }

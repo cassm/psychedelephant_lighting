@@ -17,10 +17,11 @@ class LedSender {
 public:
     LedSender() : port(io) {};
     ~LedSender();
-    void init(std::string port_str);
+    void init(std::string port_str_);
     void setPixels(uint8_t strip_id_, const ofPixels &p_);
     void set_num_leds(uint8_t strip_id_, uint16_t num_leds_);
     void send(uint8_t strip_id_, float brightness);
+    bool check_for_connect();
 //    void start_read();
 //    void handle_read(const boost::system::error_code& ec);
 
@@ -34,6 +35,9 @@ private:
 
     boost::asio::io_service io;
     boost::asio::serial_port port;
+
+    std::string port_str;
+    bool previously_connected;
 };
 
 

@@ -4,20 +4,44 @@
 
 #include "LedSender.hpp"
 
-void LedSender::init(std::string port_str) {
-    ofLogNotice("LedSender::init") << "Opening serial port...";
-    try {
-        port.open(port_str);
-        port.set_option(boost::asio::serial_port_base::baud_rate(115200));
+void LedSender::init(std::string port_str_) {
+    port_str = port_str_;
+    previously_connected = false;
+}
 
+bool LedSender::check_for_connect() {
+    if (previously_connected) {
         if (port.is_open()) {
-            ofLogNotice("LedSender::init") << "Serial port opened";
-        } else {
-            ofLogNotice("LedSender::init") << "Could not open serial port";
+            return true;
+        }
+        else {
+            ofLogNotice("LedSender::init") << "Serial port connection lost on " << port_str;
+            previously_connected = false;
+            return false;
         }
     }
-    catch(const std::exception& e) {
-        ofLogNotice("LedSender::init") << "Error opening serial port: " << e.what();
+    else {
+        if (port.is_open()) {
+            return true; //weird case. Prob not possible
+        }
+        else {
+            try {
+                port.open(port_str);
+                port.set_option(boost::asio::serial_port_base::baud_rate(115200));
+
+                if (port.is_open()) {
+                    ofLogNotice("LedSender::init") << "Serial port opened on " << port_str;
+                    previously_connected = true;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            catch(const std::exception& e) {
+//                ofLogNotice("LedSender::init") << "Error opening serial port: " << e.what();
+                return false;
+            }
+        }
     }
 }
 
@@ -40,13 +64,14 @@ void LedSender::set_num_leds(uint8_t strip_id_, uint16_t num_leds_) {
 }
 
 void LedSender::send(uint8_t strip_id_, float brightness) {
-    if (strip_id_ < num_strips) {
-        if (port.is_open()) {
+    try {
+        if (strip_id_ < num_strips) {
             uint8_t header[2];
             header[0] = '~'; // frame start char
             header[1] = strip_id_;
 
-            boost::asio::write(port, boost::asio::buffer(header, 2));
+            if (check_for_connect()) boost::asio::write(port, boost::asio::buffer(header, 2));
+            else return;
 
             for (int i = 0; i < strands[strip_id_].num_leds; i++) {
                 uint8_t pixel[3];
@@ -71,13 +96,17 @@ void LedSender::send(uint8_t strip_id_, float brightness) {
                     }
                 }
 
-                if (port.is_open()) {
-                    boost::asio::write(port, boost::asio::buffer(pixel, 3));
-                }
+                if (check_for_connect()) boost::asio::write(port, boost::asio::buffer(pixel, 3));
+                else return;
             }
 
             uint8_t footer[1] = {'|'};
-            boost::asio::write(port, boost::asio::buffer(footer, 1));
+            if (check_for_connect()) boost::asio::write(port, boost::asio::buffer(footer, 1));
+            else return;
         }
+    }
+    catch(const std::exception& e) {
+        port.close();
+//                ofLogNotice("LedSender::init") << "Error writing to serial port: " << e.what();
     }
 }
