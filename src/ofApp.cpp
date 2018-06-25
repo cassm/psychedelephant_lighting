@@ -245,24 +245,26 @@ void ofApp::draw() {
 
         strand.blend(blend_factor);
         if (simulate->getChecked()) strand.render(static_cast<float>(bunting_player.brightness)/100 * global_brightness/100);
-        bunting_sender.setPixels(strand.get_strand_id(), strand.getPixels());
-        bunting_sender.send(strand.get_strand_id(), static_cast<float>(bunting_player.brightness)/100 * global_brightness/100);
+        bunting_sender.setPixels(strand.strand_id, strand.getPixels());
+        bunting_sender.send(strand.strand_id, static_cast<float>(bunting_player.brightness)/100 * global_brightness/100);
     }
 
     for (auto &lantern : lanterns) {
         if (lantern_player.mode == SET_FROM_VIDEO && lantern_player.player->isLoaded()) {
             lantern.setPixels(lantern_player.player->getPixels());
-        }
-        else if (lantern_player.mode == SET_FROM_PALETTE_SMOOTH) {
+        } else if (lantern_player.mode == SET_FROM_PALETTE_SMOOTH) {
             lantern.setFromPalette(&paletteMapper);
-        }
-        else if (lantern_player.mode == SET_FROM_PALETTE_SPARKLE) {
-            lantern.sparkle(&paletteMapper, sparkle_level*pattern_intensity);
+        } else if (lantern_player.mode == SET_FROM_PALETTE_SPARKLE) {
+            lantern.sparkle(&paletteMapper, sparkle_level * pattern_intensity);
         }
         lantern.blend(blend_factor);
-        if (simulate->getChecked()) lantern.render(static_cast<float>(lantern_player.brightness)/100 * global_brightness/100);
+        float lantern_brightness = lantern_player.brightness / 100 * global_brightness / 100;
+        lantern_brightness *= 0.8;
+
+        if (simulate->getChecked())
+            lantern.render(lantern_brightness);
         lantern_sender.setPixels(lantern.strand_id, lantern.getPixels());
-        lantern_sender.send(lantern.strand_id, static_cast<float>(lantern_player.brightness)/100 * global_brightness/100);
+        lantern_sender.send(lantern.strand_id, lantern_brightness);
     }
 
     cam.end();
