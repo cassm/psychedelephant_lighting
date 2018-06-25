@@ -56,13 +56,16 @@ void ofApp::setup(){
     screen_gui_obj = ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
     screen_gui = GuiBlock("Screen", &screen_player, &screen_gui_obj, active_theme, inactive_theme);
     screen_gui_obj.onButtonEvent(this, &ofApp::onScreenButtonEvent);
+    screen_gui_obj.setWidth(1000);
 //    screen_gui_obj.onSliderEvent(this, &ofApp::doNothing);
-    screen_gui.add_video("    HX-01 Bonus 1", "hx-01-bonus-01.mp4", true);
-    screen_gui.add_video("    HX-01 Bonus 2", "hx-01-bonus-02.mp4");
-    screen_gui.add_video("    HX-01", "HX-01.mp4");
-    screen_gui.add_video("    Electric Sheep", "big_sheep.mp4");
-    screen_gui.add_video("    Shpongle Set", "shpongle.mp4");
-    screen_gui.add_video("    Clip series", "big.mp4");
+    screen_gui.add_video("    Dreamy Hexagonal Bullshit", "American_Merlin.mp4", true);
+    screen_gui.add_video("    Fractal Hexagonal Bullshit", "hx-01-bonus-01.mp4");
+    screen_gui.add_video("    Floaty Fractal Bullshit", "forest-sheep.mp4");
+    screen_gui.add_video("    Swirly Fractal Bullshit", "shpongle.mp4");
+    screen_gui.add_video("    The Willy Wonka Tunnel But Good", "hx-01-bonus-02.mp4");
+    screen_gui.add_video("    ALL HAIL THE SKY ORB", "sky_orb.mp4");
+    screen_gui.add_video("    Funky VJ Clips", "orb_clips.mp4");
+    screen_gui.add_video("    Glitchy VJ Clips", "psychill_clips.mp4");
     screen_gui.add_brightness_slider();
     screen_gui_obj.setTheme(inactive_theme);
 
