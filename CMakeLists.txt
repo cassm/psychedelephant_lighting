@@ -28,6 +28,7 @@ set( ${APP_NAME}_SOURCE_FILES
         src/GuiBlock.cpp
         src/PaletteMapper.cpp
         src/ProjectorView.cpp
+        src/BrightnessBox.cpp
         )
 
 
