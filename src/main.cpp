@@ -11,6 +11,8 @@ int main( ){
 	// pass in width and height too:
 //	ofVideoPlayer screen_player;
 	float brightness;
+	float width;
+	int skew;
 	std::string title = "";
 //	ofRunApp(new ofApp(&screen_player, &brightness));
 //	ofRunApp(new ProjectorView(&screen_player, &brightness));
@@ -26,8 +28,8 @@ int main( ){
 	settings.setPosition(ofVec2f(300,0));
 	auto mainWindow = ofCreateWindow(settings);
 
-	auto projectionApp = make_shared<ProjectorView>(&title, &brightness);
-	auto mainApp = make_shared<ofApp>(&title, &brightness);
+	auto projectionApp = make_shared<ProjectorView>(&title, &brightness, &skew, &width);
+	auto mainApp = make_shared<ofApp>(&title, &brightness, &skew, &width);
 
 	ofRunApp(mainWindow, mainApp);
 	ofRunApp(projectionWindow, projectionApp);

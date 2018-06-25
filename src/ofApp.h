@@ -12,7 +12,7 @@
 
 class ofApp : public ofBaseApp{
 public:
-    ofApp(std::string *video_title_, float *parent_brightness_) : video_title(video_title_), parent_brightness(parent_brightness_) {}
+    ofApp(std::string *video_title_, float *parent_brightness_, int *parent_skew_, float *parent_width_) : video_title(video_title_), parent_brightness(parent_brightness_), parent_skew(parent_skew_), parent_width(parent_width_) {}
 //    ofApp(ofVideoPlayer *screen_player_, float *parent_brightness_) : parent_brightness(parent_brightness_) {screen_player.player = screen_player_;}
     void setup() override;
 //    void exit() override;
@@ -95,6 +95,8 @@ public:
     float blend_factor;
 
     float *parent_brightness;
+    int *parent_skew;
+    float *parent_width;
 
     float last_width;
     float last_height;

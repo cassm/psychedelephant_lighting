@@ -21,13 +21,15 @@ void ProjectorView::update() {
 }
 
 void ProjectorView::draw() {
+    int proj_skew = *skew;
+//    int proj_skew = -252;
     glDisable (GL_DEPTH_TEST);   // Enables Depth Testing
     float height = ofGetHeight();
-    float maskWidth = height / screen_mask.getHeight() * screen_mask.getWidth();
-    float videoWidth = height / player.getHeight() * player.getWidth();
+    float maskWidth = height / screen_mask.getHeight() * screen_mask.getWidth() * *width_factor;
+    float videoWidth = height / player.getHeight() * player.getWidth() * *width_factor;
 
     ofSetColor(255 * *brightness);
-    player.draw((ofGetWidth() - videoWidth) / 2, 0, videoWidth, height);
+    player.draw((ofGetWidth() + proj_skew - videoWidth) / 2, 0, videoWidth, height);
     ofSetColor(255);
-    screen_mask.draw((ofGetWidth() - maskWidth) / 2, 0, maskWidth, height);
+    screen_mask.draw((ofGetWidth() + proj_skew - maskWidth) / 2, 0, maskWidth, height);
 }

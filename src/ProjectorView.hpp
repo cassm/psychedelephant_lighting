@@ -11,7 +11,7 @@
 class ProjectorView : public ofBaseApp{
 public:
 //    ProjectorView(ofVideoPlayer *player_, float *brightness_) : player(player_), brightness(brightness_) {}
-    ProjectorView(std::string *video_title_, float *brightness_) : last_title(""), video_title(video_title_), brightness(brightness_) {}
+    ProjectorView(std::string *video_title_, float *brightness_, int *skew_, float *width_factor_) : last_title(""), video_title(video_title_), brightness(brightness_), skew(skew_), width_factor(width_factor_) {}
     void setup() override;
     void draw() override;
     void update() override;
@@ -22,6 +22,8 @@ private:
 //    ofVideoPlayer *player;
     ofImage screen_mask;
     float *brightness;
+    int *skew;
+    float *width_factor;
 };
 
 

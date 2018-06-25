@@ -111,6 +111,17 @@ void ofApp::setup(){
     global_gui_obj.addLabel("Blend Factor");
     ofxDatGuiSlider* blend_slider = global_gui_obj.addSlider("", 0.1, 0.9);
     blend_slider->bind(blend_factor);
+
+    // FOR CALIBRATION
+    global_gui_obj.addLabel("Projection Skew");
+    ofxDatGuiSlider* skew_slider = global_gui_obj.addSlider("", -300, 300);
+    skew_slider->bind(*parent_skew);
+    global_gui_obj.addLabel("Projection Width");
+    ofxDatGuiSlider* width_slider = global_gui_obj.addSlider("", 0, 2);
+    width_slider->bind(*parent_width);
+    *parent_skew = -252;
+    *parent_width = 1;
+
     blend_factor = 0.8;
     pattern_intensity = 0.5;
 //    ofxDatGuiSlider* skew_slider = global_gui_obj.addSlider("Palette Skew", 0, 1);
