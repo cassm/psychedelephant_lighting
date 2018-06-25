@@ -25,10 +25,11 @@ void ofApp::setup(){
     ofPoint lanternOrigin(0, 0, 60 + 35 / 2);
     lanterns.emplace_back(LedCylinder(0, 7.5, 35, 5*3.14/6, 13.9, num_leds, 1, ofPoint(lantern_radius*sin(3.14/6), lantern_radius*cos(3.14/6)) + lanternOrigin));
     lantern_sender.set_num_leds(0, 150);
-    lanterns.emplace_back(LedCylinder(1, 7.5, 35, 3.14/2, 13.9, num_leds, 1, ofPoint(330, 0) + lanternOrigin));
+//    lanterns.emplace_back(LedCylinder(1, 7.5, 35, 3.14/2, 13.9, num_leds, 1, ofPoint(330, 0) + lanternOrigin));
+    lanterns.emplace_back(LedCylinder(6, 7.5, 35, 3.14/2, 13.9, num_leds, 1, ofPoint(330, 0) + lanternOrigin));
+    lantern_sender.set_num_leds(6, 150);
+    lanterns.emplace_back(LedCylinder(1, 7.5, 35, 3.14/6, 13.9, num_leds, 1, ofPoint(lantern_radius*sin(5*3.14/6), lantern_radius*cos(5*3.14/6)) + lanternOrigin));
     lantern_sender.set_num_leds(1, 150);
-    lanterns.emplace_back(LedCylinder(2, 7.5, 35, 3.14/6, 13.9, num_leds, 1, ofPoint(lantern_radius*sin(5*3.14/6), lantern_radius*cos(5*3.14/6)) + lanternOrigin));
-    lantern_sender.set_num_leds(2, 150);
     lanterns.emplace_back(LedCylinder(3, 7.5, 35, -3.14/6, 13.9, num_leds, 1, ofPoint(lantern_radius*sin(7*3.14/6), lantern_radius*cos(7*3.14/6)) + lanternOrigin));
     lantern_sender.set_num_leds(3, 150);
     lanterns.emplace_back(LedCylinder(4, 7.5, 35, -3.14/2, 14.9, num_leds, 1, ofPoint(-330, 0) + lanternOrigin));
